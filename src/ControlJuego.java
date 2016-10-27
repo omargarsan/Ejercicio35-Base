@@ -38,9 +38,18 @@ public class ControlJuego {
 		//Borro del tablero la información que pudiera haber anteriormente (los pongo todos a cero):
 
 		//Me creo LADO_TABLERO*LADO_TABLERO números en un array list, uno para cada una de las posiciones del tablero:
-
+		
 		//Saco 20 posiciones sin repetir del array y les coloco una mina en el tablero:
-
+		int fila, columna;
+		for (int i = 0; i < 20; i++) {
+			fila = (int) Math.random()*10;
+			columna= (int) Math.random()*10;
+			if (tablero[fila][columna] != -1) {
+				tablero[fila][columna] = -1;
+			} else i--; // si esa [f][c] ya ha salido, repetimos la vuelta al bucle
+	
+		}
+		
 		//Calculo para todas las posiciones que no tienen minas, cuántas minas hay alrededor.
 		
 		//Pongo la puntuación a cero:
@@ -103,6 +112,7 @@ public class ControlJuego {
 	 * @return Un entero que representa el número de minas alrededor de la celda
 	 */
 	public int getMinasAlrededor(int i, int j) {
+		
 	}
 
 	/**
