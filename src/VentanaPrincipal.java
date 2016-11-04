@@ -140,9 +140,26 @@ public class VentanaPrincipal {
 	 */
 	public void inicializarListeners(){
 		
+		botonEmpezar.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent ae) {
+				juego.inicializarPartida();
+				for (int i = 0; i < botonesJuego.length; i++) {
+					for (int j = 0; j < botonesJuego.length; j++) {
+						panelesJuego[i][j].removeAll();
+						panelesJuego[i][j].add(botonesJuego[i][j]);
+						botonesJuego[i][j].setEnabled(true);
+						botonesJuego[i][j].setVisible(true);
+						
+					}
+				}
+				actualizarPuntuacion();
+			}
+		});
+		
 		for (int i = 0; i < botonesJuego.length; i++) {
 			for (int j = 0; j < botonesJuego[i].length; j++) {
-				botonesJuego[i][j].addActionListener(new ActionBoton(this));
+				botonesJuego[i][j].addActionListener(new ActionBoton(this, i, j));
 			}
 		}
 	}
@@ -161,6 +178,13 @@ public class VentanaPrincipal {
 	 * @param j: posición horizontal de la celda.
 	 */
 	public void mostrarNumMinasAlrededor(int i , int j) {
+		//creamos un JLabel que contenga el numero que hay debajo del boton y le damos color
+		panelesJuego[i][j].add(new JLabel(Integer.toString(juego.getTablero()[i][j]))).setForeground(correspondenciaColores[juego.getTablero()[i][j]]);
+		//hacemos invisible el bot�n para ver el Jlabel
+		botonesJuego[i][j].setVisible(false);
+		juego.setPuntuacion(juego.getPuntuacion() + 1);
+		actualizarPuntuacion();
+		
 		
 	}
 	
@@ -171,14 +195,25 @@ public class VentanaPrincipal {
 	 * @post : Todos los botones se desactivan excepto el de volver a iniciar el juego.
 	 */
 	public void mostrarFinJuego(boolean porExplosion) {
-		//TODO
+		if (porExplosion == true) {
+			JOptionPane.showMessageDialog(ventana,"BOOOOOOOOOOOOOOOOOOOOOOOOOOOOM!");
+			bloquearBotones();
+		}
 	}
 
 	/**
 	 * Método que muestra la puntuación por pantalla.
 	 */
 	public void actualizarPuntuacion() {
-		//TODO
+		pantallaPuntuacion.setText(Integer.toString(juego.getPuntuacion()));
+	}
+	
+	public void bloquearBotones() {
+		for (int i = 0; i < botonesJuego.length; i++) {
+			for (int j = 0; j < botonesJuego[i].length; j++) {
+				botonesJuego[i][j].setEnabled(false);
+			}
+		}
 	}
 	
 	/**
